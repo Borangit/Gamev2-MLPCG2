@@ -1,0 +1,65 @@
+{
+    "My Behavior": {
+        "checkpoints": [
+            {
+                "steps": 3499993,
+                "file_path": "results\\gamev2\\My Behavior\\My Behavior-3499993.onnx",
+                "reward": 358.13953488372096,
+                "creation_time": 1708285928.7717724,
+                "auxillary_file_paths": [
+                    "results\\gamev2\\My Behavior\\My Behavior-3499993.pt"
+                ]
+            },
+            {
+                "steps": 3999969,
+                "file_path": "results\\gamev2\\My Behavior\\My Behavior-3999969.onnx",
+                "reward": 357.5,
+                "creation_time": 1708289305.3065302,
+                "auxillary_file_paths": [
+                    "results\\gamev2\\My Behavior\\My Behavior-3999969.pt"
+                ]
+            },
+            {
+                "steps": 4499961,
+                "file_path": "results\\gamev2\\My Behavior\\My Behavior-4499961.onnx",
+                "reward": 351.7261904761905,
+                "creation_time": 1708292844.2072353,
+                "auxillary_file_paths": [
+                    "results\\gamev2\\My Behavior\\My Behavior-4499961.pt"
+                ]
+            },
+            {
+                "steps": 4999991,
+                "file_path": "results\\gamev2\\My Behavior\\My Behavior-4999991.onnx",
+                "reward": 352.99107142857144,
+                "creation_time": 1708296565.0106251,
+                "auxillary_file_paths": [
+                    "results\\gamev2\\My Behavior\\My Behavior-4999991.pt"
+                ]
+            },
+            {
+                "steps": 5000047,
+                "file_path": "results\\gamev2\\My Behavior\\My Behavior-5000047.onnx",
+                "reward": 353.1858407079646,
+                "creation_time": 1708296565.0867872,
+                "auxillary_file_paths": [
+                    "results\\gamev2\\My Behavior\\My Behavior-5000047.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5000047,
+            "file_path": "results\\gamev2\\My Behavior.onnx",
+            "reward": 353.1858407079646,
+            "creation_time": 1708296565.0867872,
+            "auxillary_file_paths": [
+                "results\\gamev2\\My Behavior\\My Behavior-5000047.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0.dev0",
+        "torch_version": "2.1.2+cu121"
+    }
+}
