@@ -36,6 +36,22 @@ public class EnemyWaveManagerV2 : MonoBehaviour
         enemyPathIndices = new Dictionary<GameObject, int>();
 
     }
+
+    public void reset(){
+        //destroy all active enemies
+        foreach (GameObject enemy in activeEnemies)
+        {
+            Destroy(enemy);
+        }
+        activeEnemies = new List<GameObject>();
+        enemyPathIndices = new Dictionary<GameObject, int>();
+        spawnTimer = spawnInterval;  // Initialize the spawn timer to start spawning immediately
+        waveTimer = waveInterval;  // Initialize the wave timer to start spawning immediately
+
+        waveN = 3;
+
+        waveCount = 0;
+    }
     public void startWave(){
         startWaveOnStart = true;
     }

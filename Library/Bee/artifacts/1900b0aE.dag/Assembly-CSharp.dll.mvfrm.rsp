@@ -1,6 +1,7 @@
 Library\Bee\artifacts\mvdfrm\Unity.Burst.Editor.ref.dll_E2F92DAB6C167CC9.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Burst.ref.dll_F30DFA20C0DD1968.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.EditorCoroutines.Editor.ref.dll_34ED10A34098B2DB.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.InternalAPIEditorBridgeDev.001.ref.dll_E984A7896F18F703.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.ML-Agents.CommunicatorObjects.ref.dll_D7E75170880C5095.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.ML-Agents.Editor.ref.dll_A5EACA7A9EEE192D.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.ML-Agents.ref.dll_CCD3793145BE06C4.mvfrm
@@ -8,6 +9,7 @@ Library\Bee\artifacts\mvdfrm\Unity.Mathematics.Editor.ref.dll_9A20CFD48BC11F43.m
 Library\Bee\artifacts\mvdfrm\Unity.Mathematics.ref.dll_E8EFDB1B8D5C174E.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Performance.Profile-Analyzer.Editor.ref.dll_65A192712782EB2B.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.PlasticSCM.Editor.ref.dll_257AEB342BE77856.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Play.Publisher.Editor.ref.dll_EAD9EA318D2F5031.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Rider.Editor.ref.dll_9B5591808ABA37AF.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Sentis.Editor.ref.dll_CB39FB503C273871.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Sentis.MacBLAS.ref.dll_62CEE95A2A6BB75D.mvfrm

@@ -127,11 +127,7 @@ public class Gamev2Manager : MonoBehaviour
             Destroy(turret);
         }
         //find all object tagged enemy and destroy them
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemy in enemies)
-        {
-            Destroy(enemy);
-        }
+
 
         
 

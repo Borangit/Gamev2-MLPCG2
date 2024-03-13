@@ -15,6 +15,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Classic.unity
     guid: 6783e984b1930ac4bab42bf00bcd5015
   - enabled: 1
-    path: Assets/Scenes/Game.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/Gamev2.unity
+    guid: 5b3aa8c2a14e34942b1e9bbaeb4c600e
+  - enabled: 1
+    path: Assets/Scenes/death.unity
+    guid: 4a439e89a69981843b5a5d800e06ec45
+  - enabled: 1
+    path: Assets/Scenes/Won.unity
+    guid: 4d682d625950fc543acf8b1916444979
+  - enabled: 1
+    path: Assets/Scenes/Shallow NNet.unity
+    guid: 6ad26ea4529ca444e9766a9c9d07c91c
+  - enabled: 1
+    path: Assets/Scenes/cnn/Turtlev1.unity
+    guid: 280b43b8d01b5cc438a91c1bc66f5968
+  - enabled: 0
+    path: Assets/Scenes/cnn/Gamev3.unity
+    guid: f96948818882208498a9149cd954c534
   m_configObjects: {}

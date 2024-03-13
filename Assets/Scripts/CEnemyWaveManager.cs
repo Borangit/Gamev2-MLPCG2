@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CEnemyWaveManager : MonoBehaviour
 {
@@ -21,14 +22,12 @@ public class CEnemyWaveManager : MonoBehaviour
 
     private int waveCount = 0;
     public bool startWaveOnStart = false;
+    
 
     void Start()
     {
         spawnTimer = spawnInterval;  // Initialize the spawn timer to start spawning immediately
         waveTimer = waveInterval;  // Initialize the wave timer to start spawning immediately
-        
-  
-
     }
     public void startWave(){
         gridManager = FindObjectOfType<GridManager>();
@@ -88,8 +87,8 @@ public class CEnemyWaveManager : MonoBehaviour
                 CurrencyManager.health -= 10;
             }
         }
-        if (waveCount == waveN && activeEnemies.Count == 0){
-            Debug.Log("You won!");
+        if (waveN == 0 && activeEnemies.Count == 0){
+            SceneManager.LoadScene(5);
         }
     }
 

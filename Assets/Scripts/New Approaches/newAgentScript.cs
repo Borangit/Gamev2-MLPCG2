@@ -9,11 +9,17 @@ public class newAgentScript : Agent
     // Start is called before the first frame update
     //run on click w
     public newApproachGridManager gridManager;
+
     public int width,height,neighbourDirtCount;
     public float startx, startz;
-    private int actionNumber, tileCount, fallOffMapCount;
+    private int actionNumber, tileCount, fallOffMapCount, connectedComponentCount, LSCount;
     private int mapIndexx, mapIndexz, randomx, randomz;
+
+
+
+    // private int lastCCN = 0;
     void Awake(){
+
         
         width = gridManager.width;
         height = gridManager.height;
@@ -25,6 +31,10 @@ public class newAgentScript : Agent
         // changeTile();
         killWhenOutOfBounds();
     }
+    public void setActive(){
+        gameObject.SetActive(true);
+        EndEpisode();
+    }
     public override void OnEpisodeBegin(){
         //spawn agent at random position
         randomx = Random.Range(0, width);
@@ -33,19 +43,33 @@ public class newAgentScript : Agent
         actionNumber = 0;
         fallOffMapCount = 0;
         tileCount = 0;
+        connectedComponentCount = connectedComponent();
+        LSCount = FindLongestShortestPath(this, gridManager.map);
+
     }
     public override void OnActionReceived(ActionBuffers actions){
         int action = actions.DiscreteActions[0];
         actionNumber++;
-        // if (actionNumber > 2000){
-        //     gridManager.endEpisode = true;
-        //     AddReward(-5000f);
+        if(actionNumber > 1500){
+            AddReward(-10f);
+            gridManager.endEpisode = true;
 
-        // }
+
+        }
+        if(tileCount > 80){
+            AddReward(1f);
+            gridManager.endEpisode = true;
+        }
+        if (connectedComponent() < connectedComponentCount){
+            connectedComponentCount = connectedComponent();
+            AddReward(1f);
+        }
+
+
+
         switch (action){
             case 0:
                 transform.position += new Vector3 (0, 0, 1);
-                
                 break;
             case 1:
                 transform.position += new Vector3 (1, 0, 0);
@@ -57,6 +81,7 @@ public class newAgentScript : Agent
                 transform.position += new Vector3 (-1, 0, 0);
                 break;
             case 4:
+                
                 mapIndexx = (int) (transform.position.x - startx);
                 mapIndexz = (int) (transform.position.z - startz);
                 if (mapIndexx < 0 || mapIndexx >= width || mapIndexz < 0 || mapIndexz >= height){ // if out of bounds break
@@ -65,26 +90,106 @@ public class newAgentScript : Agent
                 
                 if (gridManager.map[mapIndexx,mapIndexz] == 0 ){ // change grass tile to dirt tile
                     gridManager.map[mapIndexx,mapIndexz] = 1;
+                    tileCount++;
+                    AddReward(0.1f);
                 }
-
-
+ 
 
 
                 break;
         }
         if (gridManager.endEpisode == true){// if change percentage is over 25% end episode
             evaluateMap();
-            // AddReward(-(actionNumber - 400)*2);//penalize for taking too long, 600 is the max number of actions
-            Debug.Log("action: " + actionNumber);
-            //print reward
-            Debug.Log("Reward: " + GetCumulativeReward());
-            Debug.Log("Fall off map count: " + fallOffMapCount);
-            EndEpisode();
+            Debug.Log(" action: " + actionNumber + " reward: " + GetCumulativeReward());
+            // EndEpisode();
+            gameObject.SetActive(false);
+
             gridManager.endEpisode = false;
-            gridManager.resetGrid();
+
+            // gridManager.resetGrid();
         }
     }
+    public static int FindLongestShortestPath(newAgentScript agent, int[,] map)
+    {
+        int rows = map.GetLength(0);
+        int cols = map.GetLength(1);
+        int longestShortestPath = 0;
+
+
+
+        for (int startRow = 0; startRow < rows; startRow++)
+        {
+            for (int startCol = 0; startCol < cols; startCol++)
+            {
+                if (map[startRow, startCol] == 1) // Start from an empty tile
+                {
+                    for (int endRow = 0; endRow < rows; endRow++)
+                    {
+                        for (int endCol = 0; endCol < cols; endCol++)
+                        {
+                            if (map[endRow, endCol] == 1 && (startRow != endRow || startCol != endCol)) // End at a different empty tile
+                            {
+
+                                int pathLength = BreadthFirstSearch(agent, map, startRow, startCol, endRow, endCol);
+                                if (pathLength > longestShortestPath)
+                                {
+                                    longestShortestPath = pathLength;
+
+
+
+                                    
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return longestShortestPath;
+    }
+    private static int BreadthFirstSearch(newAgentScript agent, int[,] map, int startRow, int startCol, int endRow, int endCol)
+    {
+        int rows = map.GetLength(0);
+        int cols = map.GetLength(1);
+        bool[,] visited = new bool[rows, cols];
+        Queue<(int row, int col, int distance)> queue = new Queue<(int, int, int)>();
+        queue.Enqueue((startRow, startCol, 0));
+        visited[startRow, startCol] = true;
+
+        int[] dr = { -1, 1, 0, 0 }; // Directions: up, down, left, right
+        int[] dc = { 0, 0, -1, 1 };
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            if (current.row == endRow && current.col == endCol)
+            {
+                return current.distance; // Found the shortest path
+            }
+
+            for (int i = 0; i < 4; i++) // Explore all 4 directions
+            {
+                int newRow = current.row + dr[i];
+                int newCol = current.col + dc[i];
+
+                // Check if it's within bounds, not visited, and not a solid tile
+                if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && !visited[newRow, newCol] && map[newRow, newCol] == 1)
+                {
+                    visited[newRow, newCol] = true;
+                    queue.Enqueue((newRow, newCol, current.distance + 1));
+
+                    
+                    
+                }
+            }
+        }
+
+        return -1; // Path not found
+    }
     public void evaluateMap(){
+        int longestShortestPath = 0;
         //add a reward if all the components are connected together
         int connectedComponentCount = 0;
         int[,] visited = new int[width,height];
@@ -95,32 +200,27 @@ public class newAgentScript : Agent
         }
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
-                
                 if (gridManager.map[i,j] == 1 && visited[i,j] == 0){
                     connectedComponentCount++;
                     dfs(i,j,visited);
                 }            
-                if (gridManager.map[i,j] == 1){
-                    tileCount++;
-                    int neighboutDirtCount = getNeighbourDirtCount(i,j);    
-                    if(neighbourDirtCount > 2){
-                        AddReward(1f);
-                    }
-                    if (neighbourDirtCount == 2 ){
-                        AddReward(4f);
-                    }
-                    if (neighbourDirtCount == 1){
-                        AddReward(2f);
-                    }
-                    
-                }
             }
         }
-        AddReward(500/connectedComponentCount);
-        Debug.Log("Connected Component Count: " + connectedComponentCount + " Tile Count: " + tileCount);
-        // if(tileCount < 10){
-        //     AddReward(-1500f);
-        // }
+
+        longestShortestPath = FindLongestShortestPath(this, gridManager.map);
+        //spawn spawn and goal prefabs
+
+
+        if (longestShortestPath > (LSCount + 30) && connectedComponent() == 1)
+        {
+            AddReward(100f);
+            AddReward(connectedComponentCount * 1f);
+        }
+        
+
+
+       
+
     }
     //dfs for the above function
     private void dfs(int i, int j, int[,] visited){
@@ -176,10 +276,32 @@ public class newAgentScript : Agent
     private void killWhenOutOfBounds(){
         if (transform.position.x < startx || transform.position.x > startx + width-1 || transform.position.z < startz || transform.position.z > startz + height-1){
             transform.position = new Vector3(startx + (width/2), 1, startz + (height/2));
-            AddReward(-5f);
+            AddReward(-0.1f);
             fallOffMapCount++;
         }
     }
+    public int connectedComponent(){
+        //add a reward if all the components are connected together
+        int connectedComponentCount = 0;
+        int[,] visited = new int[width,height];
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+                visited[i,j] = 0;
+            }
+        }
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+                
+                if (gridManager.map[i,j] == 1 && visited[i,j] == 0){
+                    connectedComponentCount++;
+                    dfs(i,j,visited);
+                }            
+            }
+        }
+        return connectedComponentCount;
+    }
+
+
     //move agent using wasd
     // private void moveAgent(){
         

@@ -7,7 +7,7 @@ public class GridManager : MonoBehaviour
 {
     public int width = 25;
     public int height = 15;
-    public int minPathLenth = 30;
+    public int minPathLength = 30;
     public int objectChance = 30;
 
 
@@ -26,7 +26,7 @@ public class GridManager : MonoBehaviour
     public TMP_InputField heightInput;
     public TMP_InputField minPathLengthInput;
     public TMP_InputField objectChanceInput;
-
+    private int attempts = 0;
 
 
     private PathGenerater pathGenerater;
@@ -37,11 +37,21 @@ public class GridManager : MonoBehaviour
         enemyWaveManager = FindObjectOfType<CEnemyWaveManager>();
     }
     public void start(){
+        attempts = 0;
         pathGenerater = new PathGenerater(width, height);
         pathCells = pathGenerater.GeneratePath();
         int pathCellsCount = pathCells.Count;
-        while (pathCellsCount < minPathLenth)
+        if (minPathLength > width + (height/2)){
+            minPathLength = width + (height/2);
+        }
+        while (pathCellsCount < minPathLength)
         {
+            attempts++;
+            if (attempts > 100)
+            {
+                minPathLength = 0;
+                break;
+            }
             pathCells = pathGenerater.GeneratePath();
             pathCellsCount = pathCells.Count;
         }
@@ -54,12 +64,21 @@ public class GridManager : MonoBehaviour
     }
     public void ReadHeight(){
         height = int.Parse(heightInput.text);
+        if (height > 20){
+            height = 20;
+        }
     }
     public void ReadWidth(){
         width = int.Parse(widthInput.text);
+        if (width > 30){
+            width = 30;
+        }
     }
     public void ReadMinPathLength(){
-        minPathLenth = int.Parse(minPathLengthInput.text);
+        minPathLength = int.Parse(minPathLengthInput.text);
+        if (minPathLength > width + (height/2)){
+            minPathLength = width + (height/2);
+        }
     }
     public void ReadObjectChance(){
         objectChance = int.Parse(objectChanceInput.text);
