@@ -7,5 +7,6 @@ This project uses two external libraries, MLAgents, MathNet.Numerics.
 The assets used in this project is copyright free. https://kenney-assets.itch.io/tower-defense-kit
 
 A detailed report is included in this repo
+Heres a short video explaining what I did: https://www.youtube.com/watch?v=Lb4-nq8VIwU
 
 All packages & assets used in this project are copyright free.
