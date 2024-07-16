@@ -6,4 +6,6 @@ To run MLAgents, download it at https://github.com/Unity-Technologies/ml-agents.
 This project uses two external libraries, MLAgents, MathNet.Numerics.
 The assets used in this project is copyright free. https://kenney-assets.itch.io/tower-defense-kit
 
+A detailed report is included in this repo
+
 All packages & assets used in this project are copyright free.
